@@ -6,14 +6,25 @@ import VueRouter from 'vue-router'
 import Vuex from 'vuex'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import routes from './routes'
+import routes from './route/routes'
 import Mock from './mock'
 import 'font-awesome/css/font-awesome.min.css'
+import './http/wrapper'
+import {
+  getRequest,
+  postRequest
+} from './api/request'
+
+// 启用mockjs
 Mock.bootstrap()
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)
 Vue.use(Vuex)
+
+// Vue扩展axios http请求
+Vue.prototype.getRequest = getRequest
+Vue.prototype.postRequest = postRequest
 
 const router = new VueRouter({
   routes

@@ -1,6 +1,6 @@
-import Login from './views/Login.vue'
-import Home from './views/Home.vue'
-import Table from './views/nav1/Table.vue'
+import Login from '../views/Login.vue'
+import Home from '../views/Home.vue'
+import Table from '../views/nav1/Table.vue'
 
 let routes = [{
   path: '/login',

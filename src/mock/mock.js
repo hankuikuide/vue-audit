@@ -36,7 +36,7 @@ export default {
               user
             }])
           } else {
-            resolve([200, {
+            resolve([500, {
               code: 500,
               msg: '账号或密码错误'
             }])
@@ -50,7 +50,7 @@ export default {
       let {
         page,
         name
-      } = config.params
+      } = JSON.parse(config.data)
 
       let mockUsers = _User.filter(user => {
         if (name && user.name.indexOf(name) === -1) {
