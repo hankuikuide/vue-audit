@@ -1,6 +1,6 @@
 import Login from '../views/Login.vue'
 import Home from '../views/Home.vue'
-import Table from '../views/nav1/Table.vue'
+import UserManager from '../views/sys/UserManager.vue'
 
 let routes = [{
   path: '/login',
@@ -21,11 +21,11 @@ let routes = [{
   iconCls: 'el-icon-location',
   children: [{
     path: '/table',
-    component: Table,
+    component: UserManager,
     name: '表格'
   }, {
     path: '/date',
-    component: Table,
+    component: UserManager,
     name: '日期'
   }]
 }, {
@@ -35,11 +35,11 @@ let routes = [{
   iconCls: 'el-icon-view',
   children: [{
     path: '/dropdowntree',
-    component: Table,
+    component: UserManager,
     name: '表格'
   }, {
     path: '/dropdowntable',
-    component: Table,
+    component: UserManager,
     name: '日期'
   }]
 }
