@@ -13,7 +13,6 @@ axios.interceptors.request.use(config => {
 })
 
 axios.interceptors.response.use(data => {
-  console.dir(data)
   if (data.status !== 200) {
     Message.error({
       message: data.data.msg

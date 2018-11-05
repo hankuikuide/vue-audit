@@ -58,12 +58,12 @@ export default {
         }
         return true
       })
-      let totoal = mockUsers.length
+      let total = mockUsers.length
       mockUsers = mockUsers.filter((u, index) => index < 20 * page && index >= 20 * (page - 1))
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve([200, {
-            totoal: totoal,
+            total: total,
             users: mockUsers
           }])
         }, 1000)
