@@ -7,6 +7,11 @@
           <el-input v-model="filters.name" size="small" placeholder="姓名" @keyup.enter.native="getUsers"></el-input>
         </el-form-item>
         <el-form-item>
+          <el-select v-model="filters.recipe" size="small">
+            <el-option v-for="item in $store.state.recipes" :key="item.value" :label="item.label" :value="item.value"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
           <el-button type="primary" size="small" v-on:click="getUsers">查询</el-button>
         </el-form-item>
         <el-form-item>
@@ -39,6 +44,11 @@
       <el-table-column prop="age" label="年龄" width="80" sortable>
       </el-table-column>
       <el-table-column prop="birth" label="生日" width="100" sortable>
+      </el-table-column>
+      <el-table-column prop="state" label="状态" width="100" :filters="[{ text: '进行中', value: 1 }, { text: '已完成', value: 2 }]" :filter-method="filterState" :formatter="formatState">
+        <template slot-scope="scope">
+          <el-tag :type="scope.row.state===1 ?'primary':'success'" disable-transitions>{{formatState(scope.row.state)}}</el-tag>
+        </template>
       </el-table-column>
       <el-table-column prop="addr" label="地址" width="350" sortable>
       </el-table-column>
@@ -124,7 +134,8 @@ export default {
   data () {
     return {
       filters: {
-        name: ''
+        name: '',
+        recipe: ''
       },
       users: [],
       total: 0,
@@ -164,10 +175,16 @@ export default {
         birth: '',
         addr: ''
       }
-
     }
   },
   methods: {
+    filterState: function (value, row) {
+      return row.state === value
+    },
+    // 状态转换
+    formatState: function (value) {
+      return this.$store.getters.formatState(value)
+    },
     // 性别显示转换
     formatSex: function (row, column) {
       return row.sex === 1 ? '男' : row.sex === 0 ? '女' : '未知'

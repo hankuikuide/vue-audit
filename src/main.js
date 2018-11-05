@@ -7,6 +7,7 @@ import Vuex from 'vuex'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import routes from './route/routes'
+import store from './store'
 import Mock from './mock'
 import 'font-awesome/css/font-awesome.min.css'
 import './http/wrapper'
@@ -47,5 +48,6 @@ router.beforeEach((to, from, next) => {
 /* eslint-disable no-new */
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')

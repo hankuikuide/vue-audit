@@ -18,7 +18,8 @@ for (let i = 0; i < 86; i++) {
     'age|18-60': 1,
     birth: Mock.Random.date(),
     email: Mock.Random.email('163.com'),
-    sex: Mock.Random.integer(0, 1)
+    sex: Mock.Random.integer(0, 1),
+    state: Mock.Random.integer(1, 2)
   }))
 }
 
