@@ -16,8 +16,7 @@
     </el-col>
 
     <!--列表-->
-    <el-table :data="users" highlight-current-row v-loading="listLoading" @selection-change="selsChange" row-style="height:0px" header-row-style="height:0px" header-cell-style="padding:0" cell-style="padding:0"
- style="width: 100%;">
+    <el-table :data="users" :row-style="{height:0}" :header-row-style="{height:0}" :header-cell-style="{padding:0}" :cell-style="{padding:0}" highlight-current-row v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
       <el-table-column type="expand" width="30">
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
@@ -112,7 +111,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click.native="addFormVisible = false">取消</el-button>
-        <el-button type="primary"  @click.native="addSubmit" :loading="addLoading">提交</el-button>
+        <el-button type="primary" @click.native="addSubmit" :loading="addLoading">提交</el-button>
       </div>
     </el-dialog>
   </section>

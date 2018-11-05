@@ -9,6 +9,13 @@ let routes = [{
   hidden: true
 }, {
   path: '/',
+  name: 'Dashboard',
+  iconCls: 'el-icon-menu',
+  component: Home,
+  leaf: true
+},
+{
+  path: '/',
   component: Home,
   name: '原生控件',
   iconCls: 'el-icon-location',
@@ -25,7 +32,7 @@ let routes = [{
   path: '/',
   component: Home,
   name: '自定义控件',
-  iconCls: 'el-icon-menu',
+  iconCls: 'el-icon-view',
   children: [{
     path: '/dropdowntree',
     component: Table,
@@ -35,6 +42,7 @@ let routes = [{
     component: Table,
     name: '日期'
   }]
-}]
+}
+]
 
 export default routes

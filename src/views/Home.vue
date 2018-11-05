@@ -32,7 +32,8 @@
               </template>
               <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" v-if="!child.hidden">{{child.name}}</el-menu-item>
             </el-submenu>
-            <el-menu-item :key="index" v-if="item.leaf&&item.children.length>0" :index="item.children[0].path"><i :class="item.iconCls"></i>{{item.children[0].name}}</el-menu-item>
+            <!-- <el-menu-item :key="index" v-if="item.leaf&&item.children.length>0" :index="item.children[0].path"><i :class="item.iconCls"></i>{{item.children[0].name}}</el-menu-item> -->
+            <el-menu-item :key="index" v-if="item.leaf" :index="item.path"><i :class="item.iconCls"></i> <span slot="title">{{item.name}}</span></el-menu-item>
           </template>
         </el-menu>
       </aside>
@@ -140,7 +141,7 @@ export default {
       float: right;
       .userinfo-inner {
         cursor: pointer;
-        color: #fff;
+        // color: #fff;
         img {
           width: 40px;
           height: 40px;
@@ -171,8 +172,10 @@ export default {
     }
     .logo-width {
       width: 230px;
+      transition: all 0.5s ease;
     }
     .logo-collapse-width {
+      transition: all 0.5s ease;
       width: 64px;
     }
     .tools {
@@ -193,33 +196,37 @@ export default {
     aside {
       flex: 0 0 230px;
       width: 230px;
+      background-color: #545c64;
       // position: absolute;
       // top: 0px;
       // bottom: 0px;
       .el-menu {
         height: 100%;
+        border: none;
       }
-      .collapsed {
-        width: 60px;
-        .item {
-          position: relative;
-        }
-        .submenu {
-          position: absolute;
-          top: 0px;
-          left: 60px;
-          z-index: 99999;
-          height: auto;
-          display: none;
-        }
-      }
+      // .collapsed {
+      //   width: 60px;
+      //   .item {
+      //     position: relative;
+      //   }
+      //   .submenu {
+      //     position: absolute;
+      //     top: 0px;
+      //     left: 60px;
+      //     z-index: 99999;
+      //     height: auto;
+      //     display: none;
+      //   }
+      // }
     }
     .menu-collapsed {
       flex: 0 0 60px;
+      transition: all 0.5s ease;
       width: 60px;
     }
     .menu-expanded {
       flex: 0 0 230px;
+      transition: all 0.5s ease;
       width: 230px;
     }
     .content-container {
