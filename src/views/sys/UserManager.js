@@ -1,5 +1,5 @@
 import util from '../../common/js/util'
-
+import AddUser from './adduser/AddUser.vue'
 export default {
   data () {
     return {
@@ -165,6 +165,9 @@ export default {
     handleSizeChange: function (val) {
       console.dir('page size :' + val)
     }
+  },
+  components: {
+    AddUser
   },
   mounted () {
     this.getUsers()
