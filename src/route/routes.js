@@ -1,45 +1,43 @@
-import Login from '../views/Login.vue'
-import Home from '../views/Home.vue'
-import UserManager from '../views/sys/UserManager.vue'
+// "@"相当于".."
 
 let routes = [{
   path: '/login',
-  component: Login,
+  component: resolve => require(['../views/Login.vue'], resolve),
   name: '',
   hidden: true
 }, {
   path: '/',
   name: 'Dashboard',
   iconCls: 'el-icon-menu',
-  component: Home,
+  component: resolve => require(['../views/Home.vue'], resolve),
   leaf: true
 },
 {
   path: '/',
-  component: Home,
+  component: resolve => require(['../views/Home.vue'], resolve),
   name: '原生控件',
   iconCls: 'el-icon-location',
   children: [{
     path: '/table',
-    component: UserManager,
+    component: resolve => require(['../views/sys/UserManager.vue'], resolve),
     name: '表格'
   }, {
     path: '/date',
-    component: UserManager,
+    component: resolve => require(['../views/sys/UserManager.vue'], resolve),
     name: '日期'
   }]
 }, {
   path: '/',
-  component: Home,
+  component: resolve => require(['../views/Home.vue'], resolve),
   name: '自定义控件',
   iconCls: 'el-icon-view',
   children: [{
     path: '/dropdowntree',
-    component: UserManager,
+    component: resolve => require(['../views/sys/UserManager.vue'], resolve),
     name: '表格'
   }, {
     path: '/dropdowntable',
-    component: UserManager,
+    component: resolve => require(['../views/sys/UserManager.vue'], resolve),
     name: '日期'
   }]
 }

@@ -1,5 +1,3 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
 import VueRouter from 'vue-router'
@@ -27,6 +25,7 @@ Vue.use(Vuex)
 Vue.prototype.getRequest = getRequest
 Vue.prototype.postRequest = postRequest
 
+// 路由 菜单 配置
 const router = new VueRouter({
   routes
 })
