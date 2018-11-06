@@ -1,5 +1,6 @@
-import util from '../../common/js/util'
+// import util from '../../common/js/util'
 import AddUser from './adduser/AddUser.vue'
+import EditUser from './edituser/EditUser.vue'
 export default {
   data () {
     return {
@@ -12,16 +13,7 @@ export default {
       page: 1,
       listLoading: false,
       sels: [], // 列表选中列
-
       editFormVisible: false, // 编辑界面是否显示
-      editLoading: false,
-      editFormRules: {
-        name: [{
-          required: true,
-          message: '请输入姓名',
-          trigger: 'blur'
-        }]
-      },
       // 编辑界面数据
       editForm: {
         id: 0,
@@ -31,24 +23,7 @@ export default {
         birth: '',
         addr: ''
       },
-
-      addFormVisible: false, // 新增界面是否显示
-      addLoading: false,
-      addFormRules: {
-        name: [{
-          required: true,
-          message: '请输入姓名',
-          trigger: 'blur'
-        }]
-      },
-      // 新增界面数据
-      addForm: {
-        name: '',
-        sex: -1,
-        age: 0,
-        birth: '',
-        addr: ''
-      }
+      addFormVisible: false // 添加界面是否显示
     }
   },
   methods: {
@@ -117,35 +92,6 @@ export default {
     // 显示新增界面
     handleAdd: function () {
       this.addFormVisible = true
-      this.addForm = {
-        name: '',
-        sex: -1,
-        age: 0,
-        birth: '',
-        addr: ''
-      }
-    },
-    // 编辑
-    editSubmit: function () {
-      this.$refs.editForm.validate((valid) => {
-        if (valid) {
-          this.$confirm('确认提交吗？', '提示', {}).then(() => {
-            this.editLoading = true
-          })
-        }
-      })
-    },
-    // 新增
-    addSubmit: function () {
-      this.$refs.addForm.validate((valid) => {
-        if (valid) {
-          this.$confirm('确认提交吗？', '提示', {}).then(() => {
-            this.addLoading = true
-            let para = Object.assign({}, this.addForm)
-            para.birth = (!para.birth || para.birth === '') ? '' : util.formatDate.format(new Date(para.birth), 'yyyy-MM-dd')
-          })
-        }
-      })
     },
     selsChange: function (sels) {
       this.sels = sels
@@ -167,7 +113,8 @@ export default {
     }
   },
   components: {
-    AddUser
+    AddUser,
+    EditUser
   },
   mounted () {
     this.getUsers()
