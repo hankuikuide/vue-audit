@@ -1,5 +1,6 @@
 import axios from 'axios'
 
+// let remote = 'http://10.117.150.34:39000'
 let base = ''
 
 export const postRequest = (url, params) => {

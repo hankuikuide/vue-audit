@@ -44,11 +44,19 @@ export default {
             username: this.ruleForm2.account,
             password: this.ruleForm2.checkPass
           }
+          this.logining = false
+          // let { user } = [200, {
+          //   code: 200,
+          //   msg: '请求成功',
+          //   loginParams
+          // }]
+          // sessionStorage.setItem('user', JSON.stringify(user))
+          // this.$router.push({ path: '/audit' })
           this.postRequest('/login', loginParams).then(res => {
             this.logining = false
             let { user } = res.data
             sessionStorage.setItem('user', JSON.stringify(user))
-            this.$router.push({ path: '/table' })
+            this.$router.push({ path: '/audit' })
           }).catch(() => {
             this.logining = false
           })

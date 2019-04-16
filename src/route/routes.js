@@ -18,6 +18,14 @@ let routes = [{
   name: '原生控件',
   iconCls: 'el-icon-location',
   children: [{
+    path: '/audit',
+    component: resolve => require(['../views/audit/Audit.vue'], resolve),
+    name: '审核'
+  }, {
+    path: '/opinion',
+    component: resolve => require(['../views/sys/UserManager.vue'], resolve),
+    name: '意见书'
+  }, {
     path: '/table',
     component: resolve => require(['../views/sys/UserManager.vue'], resolve),
     name: '表格'

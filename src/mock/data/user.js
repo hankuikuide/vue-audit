@@ -4,7 +4,7 @@ const LoginUsers = [{
   id: 1,
   username: 'admin',
   password: '123456',
-  avatar: 'http://www.qqzhi.com/uploadpic/2015-02-10/064520157.jpg',
+  avatar: 'http://img4.duitang.com/uploads/item/201410/04/20141004220008_v5axF.jpeg',
   name: '系统管理员'
 }]
 
