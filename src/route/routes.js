@@ -30,9 +30,9 @@ let routes = [{
     component: resolve => require(['../views/sys/UserManager.vue'], resolve),
     name: '表格'
   }, {
-    path: '/date',
-    component: resolve => require(['../views/sys/UserManager.vue'], resolve),
-    name: '日期'
+    path: '/order',
+    component: resolve => require(['../views/order/OrderManager.vue'], resolve),
+    name: '订单'
   }]
 }, {
   path: '/',
