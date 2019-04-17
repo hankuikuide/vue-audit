@@ -13,6 +13,11 @@ axios.interceptors.request.use(config => {
 })
 
 axios.interceptors.response.use(data => {
+  let headers = data.headers
+  if (headers['x-auth-token']) {
+    axios.defaults.headers.common['x-auth-token'] = headers['x-auth-token']
+  }
+
   if (data.status !== 200) {
     Message.error({
       message: data.data.msg

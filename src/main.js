@@ -6,7 +6,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import routes from './route/routes'
 import store from './store'
-import Mock from './mock'
+//  import Mock from './mock'
 import 'font-awesome/css/font-awesome.min.css'
 import './http/wrapper'
 import {
@@ -15,7 +15,7 @@ import {
 } from './api/request'
 
 // 启用mockjs
-Mock.bootstrap()
+// Mock.bootstrap()
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)

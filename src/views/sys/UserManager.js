@@ -32,7 +32,11 @@ export default {
     },
     // 状态转换
     formatState: function (value) {
-      return this.$store.getters.formatState(value)
+      if (value === 1 || value === 2) {
+        return this.$store.getters.formatState(value)
+      } else {
+        return ''
+      }
     },
     // 性别显示转换
     formatSex: function (row, column) {
@@ -44,14 +48,16 @@ export default {
     },
     // 获取用户列表
     getUsers () {
-      let para = {
-        page: this.page,
-        name: this.filters.name
-      }
+      // let para = {
+      //   page: this.page,
+      //   name: this.filters.name
+      // }
       this.listLoading = true
-      this.getRequest('/user/listpage', para).then((res) => {
-        this.total = res.data.total
-        this.users = res.data.users
+      this.getRequest('/api/user/getAllUsers').then((res) => {
+        console.dir(res.data.data)
+
+        this.total = res.data.data.total
+        this.users = res.data.data.list
         this.listLoading = false
       }).catch(err => {
         this.listLoading = false

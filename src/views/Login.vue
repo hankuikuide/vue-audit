@@ -41,22 +41,16 @@ export default {
         if (valid) {
           this.logining = true
           var loginParams = {
-            username: this.ruleForm2.account,
+            userName: this.ruleForm2.account,
             password: this.ruleForm2.checkPass
           }
           this.logining = false
-          // let { user } = [200, {
-          //   code: 200,
-          //   msg: '请求成功',
-          //   loginParams
-          // }]
-          // sessionStorage.setItem('user', JSON.stringify(user))
-          // this.$router.push({ path: '/audit' })
-          this.postRequest('/login', loginParams).then(res => {
+          this.postRequest('/api/login', loginParams).then(res => {
             this.logining = false
-            let { user } = res.data
-            sessionStorage.setItem('user', JSON.stringify(user))
-            this.$router.push({ path: '/audit' })
+            // let { user } = res.data
+            console.dir(res.data)
+            sessionStorage.setItem('user', JSON.stringify(res.data))
+            this.$router.push({ path: '/dropdowntree' })
           }).catch(() => {
             this.logining = false
           })

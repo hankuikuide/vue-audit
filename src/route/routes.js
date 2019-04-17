@@ -37,16 +37,16 @@ let routes = [{
 }, {
   path: '/',
   component: resolve => require(['../views/Home.vue'], resolve),
-  name: '自定义控件',
+  name: '系统管理',
   iconCls: 'el-icon-view',
   children: [{
     path: '/dropdowntree',
     component: resolve => require(['../views/sys/UserManager.vue'], resolve),
-    name: '表格'
+    name: '用户管理'
   }, {
     path: '/dropdowntable',
     component: resolve => require(['../views/sys/UserManager.vue'], resolve),
-    name: '日期'
+    name: '角色管理'
   }]
 }
 ]

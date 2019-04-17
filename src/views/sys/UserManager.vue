@@ -37,22 +37,20 @@
       </el-table-column>
       <el-table-column type="index" label="序号" width="50" sortable>
       </el-table-column>
-      <el-table-column prop="name" label="姓名" width="100" sortable>
+      <el-table-column prop="name" label="用户名" width="100" sortable>
       </el-table-column>
-      <el-table-column prop="sex" label="性别" width="80" :formatter="formatSex" sortable>
+      <el-table-column prop="userName" label="姓名" width="80" sortable>
       </el-table-column>
-      <el-table-column prop="age" label="年龄" width="80" sortable>
-      </el-table-column>
-      <el-table-column prop="birth" label="生日" width="100" sortable>
+      <el-table-column prop="createDate" label="创建日期" width="100" sortable>
       </el-table-column>
       <el-table-column prop="state" label="状态" width="100" :filters="[{ text: '进行中', value: 1 }, { text: '已完成', value: 2 }]" :filter-method="filterState" :formatter="formatState">
         <template slot-scope="scope">
           <el-tag :type="scope.row.state===1 ?'primary':'success'" disable-transitions>{{formatState(scope.row.state)}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="addr" label="地址" width="350" sortable>
+      <el-table-column prop="email" label="邮箱" min-width="170" sortable>
       </el-table-column>
-      <el-table-column prop="email" label="邮箱" min-width="150" sortable>
+      <el-table-column prop="address" label="地址" width="350" sortable>
       </el-table-column>
       <el-table-column label="操作" width="150">
         <template slot-scope="scope">
@@ -77,5 +75,5 @@
 </script>
 
 <style lang="scss">
-@import 'UserManager.css';
+@import "UserManager.css";
 </style>

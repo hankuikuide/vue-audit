@@ -16,7 +16,7 @@ export const postRequest = (url, params) => {
     //   return ret
     // }],
     headers: {
-      'Content-Type': 'application/x-www-from-urlencoded'
+      'Content-Type': 'application/json'
     }
   })
 }
