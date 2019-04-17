@@ -5,6 +5,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    // 保存token  存到localStorage中一样
+    token: window.sessionStorage.getItem('token'),
     status: [{
       value: 1,
       text: '进行中'
@@ -35,6 +37,11 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-
+    LOGIN: (state, data) => {
+      // 更改token的值
+      state.token = data
+      // console.log(data)
+      window.sessionStorage.setItem('token', data)
+    }
   }
 })

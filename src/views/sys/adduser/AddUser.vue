@@ -66,7 +66,7 @@ export default {
           this.$confirm('确认提交吗？', '提示', {}).then(() => {
             this.addLoading = true
             let para = Object.assign({}, this.addForm)
-            this.postRequest('/api/user/addUser', para).then(res => {
+            this.postRequest('/user/addUser', para).then(res => {
               this.logining = false
               console.dir(res.data)
               this.$message({

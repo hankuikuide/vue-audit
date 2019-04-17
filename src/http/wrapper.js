@@ -1,9 +1,16 @@
 import axios from 'axios'
+import store from '../store/index'
 import {
   Message
 } from 'element-ui'
 
+axios.defaults.baseURL = process.env.BASE_API
+
 axios.interceptors.request.use(config => {
+  // 判断是否存在token，如果存在的话，则每个http header都加上token
+  if (store.state.token) {
+    config.headers['x-auth-token'] = store.state.token
+  }
   return config
 }, err => {
   Message.error({
@@ -13,10 +20,10 @@ axios.interceptors.request.use(config => {
 })
 
 axios.interceptors.response.use(data => {
-  let headers = data.headers
-  if (headers['x-auth-token']) {
-    axios.defaults.headers.common['x-auth-token'] = headers['x-auth-token']
-  }
+  // let headers = data.headers
+  // if (headers['x-auth-token']) {
+  //   axios.defaults.headers.common['x-auth-token'] = headers['x-auth-token']
+  // }
 
   if (data.status !== 200) {
     Message.error({
@@ -33,6 +40,10 @@ axios.interceptors.response.use(data => {
   } else if (err.response.status === 403) {
     Message.error({
       message: 'NOT FOUND ERROR 403'
+    })
+  } else if (err.response.status === 500) {
+    Message.error({
+      message: err.response.data.msg
     })
   } else {
     Message.error({

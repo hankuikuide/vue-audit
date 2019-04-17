@@ -17,6 +17,7 @@
 
 <script>
 // import { requestLogin } from '../api/api'
+import store from '../store/index'
 export default {
   data () {
     return {
@@ -45,10 +46,13 @@ export default {
             password: this.ruleForm2.checkPass
           }
           this.logining = false
-          this.postRequest('/api/login', loginParams).then(res => {
+          this.postRequest('/login', loginParams).then(res => {
             this.logining = false
             // let { user } = res.data
             console.dir(res.data)
+
+            let headers = res.headers
+            store.commit('LOGIN', headers['x-auth-token'])
             sessionStorage.setItem('user', JSON.stringify(res.data))
             this.$router.push({ path: '/dropdowntree' })
           }).catch(() => {

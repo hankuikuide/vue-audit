@@ -53,7 +53,7 @@ export default {
       //   name: this.filters.name
       // }
       this.listLoading = true
-      this.getRequest('/api/user/getAllUsers').then((res) => {
+      this.getRequest('/user/getAllUsers').then((res) => {
         console.dir(res.data.data)
 
         this.total = res.data.data.total
