@@ -48,12 +48,9 @@ export default {
           this.logining = false
           this.postRequest('/login', loginParams).then(res => {
             this.logining = false
-            // let { user } = res.data
-            console.dir(res.data)
-
             let headers = res.headers
             store.commit('LOGIN', headers['x-auth-token'])
-            sessionStorage.setItem('user', JSON.stringify(res.data))
+            sessionStorage.setItem('user', JSON.stringify(res.data.data))
             this.$router.push({ path: '/dropdowntree' })
           }).catch(() => {
             this.logining = false

@@ -54,8 +54,6 @@ export default {
       // }
       this.listLoading = true
       this.getRequest('/user/getAllUsers').then((res) => {
-        console.dir(res.data.data)
-
         this.total = res.data.data.total
         this.users = res.data.data.list
         this.listLoading = false

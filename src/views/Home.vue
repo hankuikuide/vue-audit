@@ -62,7 +62,7 @@
 export default {
   data () {
     return {
-      sysName: 'vue前端组件演示',
+      sysName: 'seabow项目演示',
       collapsed: false,
       sysUserName: '',
       sysUserAvatar: '',
@@ -115,7 +115,7 @@ export default {
     if (user) {
       user = JSON.parse(user)
       this.sysUserName = user.name || ''
-      this.sysUserAvatar = user.avatar || ''
+      this.sysUserAvatar = 'static/baby.jpeg' || ''
     }
   }
 }
