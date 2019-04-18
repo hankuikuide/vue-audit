@@ -103,42 +103,15 @@ function addDynamicMenuAndRoutes (userName, to, from) {
     if (resp && resp.status === 200) {
       // 添加动态路由
       let dynamicRoutes = addDynamicRoutes(resp.data.data)
-      console.dir(dynamicRoutes)
       // 处理静态组件绑定路由
       handleStaticComponent(router, dynamicRoutes)
-      console.dir('router.options.routes')
-      console.dir(router.options.routes)
       router.addRoutes(router.options.routes)
       // 保存加载状态
       store.commit('menuRouteLoaded', true)
       // 保存菜单树
       store.commit('setNavTree', resp.data.data)
-      // store.dispatch('connect')
     }
   })
-
-  // api.menu.findNavTree({
-  //   'userName': userName
-  // })
-  //   .then(res => {
-  //     // 添加动态路由
-  //     let dynamicRoutes = addDynamicRoutes(res.data)
-  //     // 处理静态组件绑定路由
-  //     handleStaticComponent(router, dynamicRoutes)
-  //     router.addRoutes(router.options.routes)
-  //     // 保存加载状态
-  //     store.commit('menuRouteLoaded', true)
-  //     // 保存菜单树
-  //     store.commit('setNavTree', res.data)
-  //   }).then(res => {
-  //     api.user.findPermissions({
-  //       'name': userName
-  //     }).then(res => {
-  //       // 保存用户权限标识集合
-  //       store.commit('setPerms', res.data)
-  //     })
-  //   })
-  //   .catch(function (res) {})
 }
 
 /**
@@ -152,25 +125,8 @@ function handleStaticComponent (router, dynamicRoutes) {
       break
     }
   }
-  router.options.routes[0].children = router.options.routes[0].children.concat(dynamicRoutes)
+  router.options.routes[2].children = router.options.routes[2].children.concat(dynamicRoutes)
 }
-
-/**
- * 处理IFrame嵌套页面
- */
-// function handleIFrameUrl (path) {
-//   // 嵌套页面，保存iframeUrl到store，供IFrame组件读取展示
-//   let url = path
-//   let length = store.state.iframe.iframeUrls.length
-//   for (let i = 0; i < length; i++) {
-//     let iframe = store.state.iframe.iframeUrls[i]
-//     if (path != null && path.endsWith(iframe.path)) {
-//       url = iframe.url
-//       store.commit('setIFrameUrl', url)
-//       break
-//     }
-//   }
-// }
 
 /**
  * 添加动态(菜单)路由
@@ -179,14 +135,8 @@ function handleStaticComponent (router, dynamicRoutes) {
  */
 function addDynamicRoutes (menuList = [], routes = []) {
   var temp = []
-  console.dir(menuList)
-
   for (var i = 0; i < menuList.length; i++) {
-    console.dir(1111111111111111111)
-
     if (menuList[i].children && menuList[i].children.length >= 1) {
-      console.dir(333333333333333333333333)
-
       temp = temp.concat(menuList[i].children)
     } else if (menuList[i].url && /\S/.test(menuList[i].url)) {
       menuList[i].url = menuList[i].url.replace(/^\//, '')
@@ -200,8 +150,6 @@ function addDynamicRoutes (menuList = [], routes = []) {
           index: menuList[i].id
         }
       }
-
-      console.dir(222222222222222222222)
       let path = '' // getIFramePath(menuList[i].url)
       if (path) {
         // 如果是嵌套页面, 通过iframe展示

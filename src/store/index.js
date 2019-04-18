@@ -47,6 +47,10 @@ export default new Vuex.Store({
     },
     setNavTree (state, navTree) { // 设置导航菜单树
       state.navTree = navTree
+    },
+    // 改变菜单和路由的加载状态
+    menuRouteLoaded (state, menuRouteLoaded) {
+      state.menuRouteLoaded = menuRouteLoaded
     }
   }
 })
