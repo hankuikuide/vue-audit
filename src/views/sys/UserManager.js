@@ -10,7 +10,8 @@ export default {
       },
       users: [],
       total: 0,
-      page: 1,
+      pageNum: 0,
+      pageSize: 10,
       listLoading: false,
       sels: [], // 列表选中列
       editFormVisible: false, // 编辑界面是否显示
@@ -43,17 +44,18 @@ export default {
       return row.sex === 1 ? '男' : row.sex === 0 ? '女' : '未知'
     },
     handleCurrentChange (val) {
-      this.page = val
+      this.pageNum = val - 1
       this.getUsers()
     },
     // 获取用户列表
     getUsers () {
       let para = {
-        page: this.page,
+        pageNum: this.pageNum,
+        pageSize: this.pageSize,
         name: this.filters.name
       }
       this.listLoading = true
-      this.getRequest('/user/getAllUsers', para).then((res) => {
+      this.postRequest('/user/getAllUsers', para).then((res) => {
         this.total = res.data.data.total
         this.users = res.data.data.list
         this.listLoading = false

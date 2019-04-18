@@ -63,7 +63,7 @@
     <!--工具条-->
     <el-col :span="24" class="toolbar">
       <el-button type="danger" size="small" @click="batchRemove" :disabled="this.sels.length===0">批量删除</el-button>
-      <el-pagination layout="prev, pager, next" @size-change="handleSizeChange" @current-change="handleCurrentChange" :page-sizes="[10,20,30,40]" :page-size="20" :total="total" style="float:right;">
+      <el-pagination layout="total, sizes, prev, pager, next" @size-change="handleSizeChange" @current-change="handleCurrentChange" :page-sizes="[10,20,30,40]" :page-size="pageSize" :total="total" style="float:right;">
       </el-pagination>
     </el-col>
 
