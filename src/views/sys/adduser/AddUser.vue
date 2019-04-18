@@ -18,8 +18,8 @@
       </el-form-item>
       <el-form-item label="状态">
         <el-radio-group v-model="addForm.state">
-          <el-radio-button label="启用"></el-radio-button>
-          <el-radio-button label="禁用"></el-radio-button>
+          <el-radio-button label=1>启用</el-radio-button>
+          <el-radio-button label=2>禁用</el-radio-button>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="地址">
@@ -53,7 +53,7 @@ export default {
         userName: Mock.Random.cname(),
         password: 123456,
         email: Mock.Random.email('163.com'),
-        state: '禁用',
+        state: 1,
         address: Mock.mock('@county(true)')
       }
     }
@@ -67,15 +67,15 @@ export default {
             this.addLoading = true
             let para = Object.assign({}, this.addForm)
             this.postRequest('/user/addUser', para).then(res => {
-              this.logining = false
               console.dir(res.data)
+              this.addLoading = false
               this.$message({
                 message: '添加成功',
                 type: 'success'
               })
               this.$emit('update:dialogVisible', false)
             }).catch(() => {
-              this.logining = false
+              this.addLoading = false
             })
           })
         }

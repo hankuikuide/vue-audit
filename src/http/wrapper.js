@@ -20,14 +20,15 @@ axios.interceptors.request.use(config => {
 })
 
 axios.interceptors.response.use(data => {
-  // let headers = data.headers
-  // if (headers['x-auth-token']) {
-  //   axios.defaults.headers.common['x-auth-token'] = headers['x-auth-token']
-  // }
-
   if (data.status !== 200) {
     Message.error({
       message: data.data.msg
+    })
+    return Promise.reject(data)
+  }
+  if (data.data.status === 500) {
+    Message.error({
+      message: '操作失败，请刷新后重试'
     })
     return Promise.reject(data)
   }

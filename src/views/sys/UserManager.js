@@ -21,7 +21,7 @@ export default {
         sex: -1,
         age: 0,
         birth: '',
-        addr: ''
+        state: 0
       },
       addFormVisible: false // 添加界面是否显示
     }
@@ -48,12 +48,12 @@ export default {
     },
     // 获取用户列表
     getUsers () {
-      // let para = {
-      //   page: this.page,
-      //   name: this.filters.name
-      // }
+      let para = {
+        page: this.page,
+        name: this.filters.name
+      }
       this.listLoading = true
-      this.getRequest('/user/getAllUsers').then((res) => {
+      this.getRequest('/user/getAllUsers', para).then((res) => {
         this.total = res.data.data.total
         this.users = res.data.data.list
         this.listLoading = false
@@ -92,6 +92,19 @@ export default {
     handleEdit: function (index, row) {
       this.editFormVisible = true
       this.editForm = Object.assign({}, row)
+    },
+    updateRowFormEditForm: function (row) {
+      // TODO 是否进一步优化
+      this.users.forEach(user => {
+        if (user.id === row.id) {
+          user.userName = row.userName
+          user.name = row.name
+          user.createDate = row.createDate
+          user.state = parseInt(row.state)
+          user.email = row.email
+          user.address = row.address
+        }
+      })
     },
     // 显示新增界面
     handleAdd: function () {

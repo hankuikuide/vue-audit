@@ -39,18 +39,18 @@
       </el-table-column>
       <el-table-column prop="name" label="用户名" width="100" sortable>
       </el-table-column>
-      <el-table-column prop="userName" label="姓名" width="80" sortable>
+      <el-table-column prop="userName" label="姓名" width="100" sortable>
       </el-table-column>
-      <el-table-column prop="createDate" label="创建日期" width="100" sortable>
+      <el-table-column prop="createDate" label="创建日期" width="180" sortable>
       </el-table-column>
-      <el-table-column prop="state" label="状态" width="100" :filters="[{ text: '进行中', value: 1 }, { text: '已完成', value: 2 }]" :filter-method="filterState" :formatter="formatState">
+      <el-table-column prop="state" label="状态" width="100" :filters="[{ text: '启用', value: 1 }, { text: '禁用', value: 2 }]" :filter-method="filterState" :formatter="formatState">
         <template slot-scope="scope">
           <el-tag :type="scope.row.state===1 ?'primary':'success'" disable-transitions>{{formatState(scope.row.state)}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="email" label="邮箱" min-width="170" sortable>
+      <el-table-column prop="email" label="邮箱" min-width="150" sortable>
       </el-table-column>
-      <el-table-column prop="address" label="地址" width="350" sortable>
+      <el-table-column prop="address" label="地址" width="300" sortable>
       </el-table-column>
       <el-table-column label="操作" width="150">
         <template slot-scope="scope">
@@ -67,7 +67,7 @@
       </el-pagination>
     </el-col>
 
-    <EditUser :dialogVisible.sync="editFormVisible" :editForm="editForm"></EditUser>
+    <EditUser :dialogVisible.sync="editFormVisible" :editForm="editForm" v-on:listenToChildEvent="updateRowFormEditForm"></EditUser>
     <AddUser :dialogVisible.sync="addFormVisible"></AddUser>
   </section>
 </template>

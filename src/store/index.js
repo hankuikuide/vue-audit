@@ -9,10 +9,10 @@ export default new Vuex.Store({
     token: window.sessionStorage.getItem('token'),
     status: [{
       value: 1,
-      text: '进行中'
+      text: '启用'
     }, {
       value: 2,
-      text: '已完成'
+      text: '禁用'
     }],
     recipes: [{
       value: '选项1',
