@@ -7,6 +7,8 @@ export default new Vuex.Store({
   state: {
     // 保存token  存到localStorage中一样
     token: window.sessionStorage.getItem('token'),
+    navTree: [], // 导航菜单树
+    menuRouteLoaded: false, // 菜单和路由是否已经加载
     status: [{
       value: 1,
       text: '启用'
@@ -42,6 +44,9 @@ export default new Vuex.Store({
       state.token = data
       // console.log(data)
       window.sessionStorage.setItem('token', data)
+    },
+    setNavTree (state, navTree) { // 设置导航菜单树
+      state.navTree = navTree
     }
   }
 })
