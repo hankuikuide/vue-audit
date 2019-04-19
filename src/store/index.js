@@ -16,6 +16,13 @@ export default new Vuex.Store({
       value: 2,
       text: '禁用'
     }],
+    isOrNot: [{
+      value: 1,
+      text: '是'
+    }, {
+      value: 0,
+      text: '否'
+    }],
     recipes: [{
       value: '选项1',
       label: '黄金糕'
@@ -36,6 +43,9 @@ export default new Vuex.Store({
   getters: {
     formatState: (state) => (value) => {
       return state.status.find(v => v.value === value).text
+    },
+    formatIsOrNot: (state) => (value) => {
+      return state.isOrNot.find(v => v.value === value).text
     }
   },
   mutations: {

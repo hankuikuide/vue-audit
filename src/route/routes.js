@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '../store'
-import Home from '@/views/Home'
 import {
   getRequest
 } from '../api/request'
@@ -43,25 +42,26 @@ const router = new Router({
       component: resolve => require(['../views/order/OrderManager.vue'], resolve),
       name: '订单'
     }]
-  }, {
-    path: '/',
-    component: resolve => require(['../views/Home.vue'], resolve),
-    name: '系统管理',
-    iconCls: 'el-icon-view',
-    children: [{
-      path: '/dropdowntree',
-      component: resolve => require(['../views/sys/UserManager.vue'], resolve),
-      name: '用户管理'
-    }, {
-      path: '/dropdowntable',
-      component: resolve => require(['../views/sys/UserManager.vue'], resolve),
-      name: '角色管理'
-    }, {
-      path: '/menu',
-      component: resolve => require(['../views/menu/MenuManager.vue'], resolve),
-      name: '菜单管理'
-    }]
   }
+    /* , {
+        path: '/',
+        component: resolve => require(['../views/Home.vue'], resolve),
+        name: '系统管理',
+        iconCls: 'el-icon-view',
+        children: [{
+          path: '/dropdowntree',
+          component: resolve => require(['../views/sys/UserManager.vue'], resolve),
+          name: '用户管理'
+        }, {
+          path: '/dropdowntable',
+          component: resolve => require(['../views/sys/UserManager.vue'], resolve),
+          name: '角色管理'
+        }, {
+          path: '/menu',
+          component: resolve => require(['../views/menu/MenuManager.vue'], resolve),
+          name: '菜单管理'
+        }]
+      } */
   ]
 })
 
@@ -96,8 +96,6 @@ router.beforeEach((to, from, next) => {
  * 加载动态菜单和路由
  */
 function addDynamicMenuAndRoutes (userName, to, from) {
-  // 处理IFrame嵌套页面
-  // handleIFrameUrl(to.path)
   if (store.state.menuRouteLoaded) {
     console.log('动态菜单和路由已经存在.')
     return
@@ -105,35 +103,18 @@ function addDynamicMenuAndRoutes (userName, to, from) {
 
   getRequest('/config/sysmenu').then(resp => {
     if (resp && resp.status === 200) {
-      console.dir('resp.data.data')
-      console.dir(resp.data.data)
       // 添加动态路由
       let dynamicRoutes = getDynamicRoutes(resp.data.data)
-      console.dir('dynamicRoutes')
-      console.dir(dynamicRoutes)
-      // 处理静态组件绑定路由
-      handleStaticComponent(router, dynamicRoutes)
-      router.addRoutes(router.options.routes)
-      // 保存加载状态
-      store.commit('menuRouteLoaded', true)
-      // 保存菜单树
-      store.commit('setNavTree', resp.data.data)
+      if (!store.state.menuRouteLoaded) {
+        router.options.routes = router.options.routes.concat(dynamicRoutes)
+        router.addRoutes(router.options.routes)
+        // 保存加载状态
+        store.commit('menuRouteLoaded', true)
+        // 保存菜单树
+        store.commit('setNavTree', resp.data.data)
+      }
     }
   })
-}
-
-/**
- * 处理路由到本地直接指定页面组件的情况
- * 比如'代码生成'是要求直接绑定到'Generator'页面组件
- */
-function handleStaticComponent (router, dynamicRoutes) {
-  for (let j = 0; j < dynamicRoutes.length; j++) {
-    if (dynamicRoutes[j].name === '代码生成') {
-      dynamicRoutes[j].component = Home
-      break
-    }
-  }
-  router.options.routes = router.options.routes.concat(dynamicRoutes)
 }
 
 /**
@@ -141,53 +122,8 @@ function handleStaticComponent (router, dynamicRoutes) {
  * @param {*} menuList 菜单列表
  * @param {*} routes 递归创建的动态(菜单)路由
  */
-// function addDynamicRoutes (menuList = [], routes = []) {
-//   var temp = []
-//   for (var i = 0; i < menuList.length; i++) {
-//     if (menuList[i].children && menuList[i].children.length >= 1) {
-//       temp = temp.concat(menuList[i].children)
-//     } else if (menuList[i].url && /\S/.test(menuList[i].url)) {
-//       menuList[i].url = menuList[i].url.replace(/^\//, '')
-//       // 创建路由配置
-//       var route = {
-//         path: menuList[i].path,
-//         iconCls: menuList[i].iconCls,
-//         component: null,
-//         name: menuList[i].name,
-//         meta: {
-//           icon: menuList[i].icon,
-//           index: menuList[i].id
-//         },
-//         leaf: menuList[i].leaf === 1
-//       }
-//       try {
-//         // 根据菜单URL动态加载vue组件，这里要求vue组件须按照url路径存储
-//         // 如url="sys/user"，则组件路径应是"@/views/sys/user.vue",否则组件加载不到
-//         let array = menuList[i].url.split('/')
-//         let url = ''
-//         for (let i = 0; i < array.length; i++) {
-//           url += array[i].substring(0, 1).toUpperCase() + array[i].substring(1) + '/'
-//         }
-//         url = url.substring(0, url.length - 1)
-//         route['component'] = resolve => require([`@/views/${url}`], resolve)
-//       } catch (e) {}
-//       routes.push(route)
-//     }
-//   }
-//   // 如果是parentid为空，leaf为0说明有子菜单，需要遍历数组
-//   if (temp.length >= 1) {
-//     addDynamicRoutes(temp, routes)
-//   } else {
-//     console.log('动态路由加载...')
-//     console.log(routes)
-//     console.log('动态路由加载完成.')
-//   }
-//   return routes
-// }
-
 function getDynamicRoutes (menuList = [], parentId = null) {
   var routes = []
-  console.dir('当前parentId为：' + parentId)
   for (var i = 0; i < menuList.length; i++) {
     // 第一层parentId为空，遍历父节点，再根据parentid遍历子节点
     if (menuList[i].parentId === parentId && menuList[i].url && /\S/.test(menuList[i].url)) {
@@ -211,7 +147,6 @@ function getDynamicRoutes (menuList = [], parentId = null) {
         route['component'] = resolve => require([`../views/${url}`], resolve)
       } catch (e) {}
       // 如果是parentid为空，leaf为0说明有子菜单，需要遍历数组
-      console.dir(route)
       if (!menuList[i].leaf) {
         route.children = getDynamicRoutes(menuList, route.id)
       }

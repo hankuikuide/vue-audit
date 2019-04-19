@@ -39,6 +39,13 @@ export default {
         return ''
       }
     },
+    formatIsOrNot: function (value) {
+      if (value === 1 || value === 0) {
+        return this.$store.getters.formatIsOrNot(value)
+      } else {
+        return ''
+      }
+    },
     // 性别显示转换
     formatSex: function (row, column) {
       return row.sex === 1 ? '男' : row.sex === 0 ? '女' : '未知'
@@ -91,14 +98,16 @@ export default {
     },
     updateRowFormEditForm: function (row) {
       // TODO 是否进一步优化
-      this.users.forEach(user => {
-        if (user.id === row.id) {
-          user.userName = row.userName
-          user.name = row.name
-          user.createDate = row.createDate
-          user.state = parseInt(row.state)
-          user.email = row.email
-          user.address = row.address
+      this.users.forEach(menu => {
+        if (menu.id === row.id) {
+          menu.path = row.path
+          menu.name = row.name
+          menu.url = row.url
+          menu.parentId = row.parentId
+          menu.createDate = row.createDate
+          menu.state = parseInt(row.state)
+          menu.leaf = parseInt(row.leaf)
+          menu.iconCls = row.iconCls
         }
       })
     },

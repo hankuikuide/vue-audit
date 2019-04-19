@@ -30,9 +30,9 @@
       </el-table-column>
       <el-table-column prop="name" label="菜单名称" width="100" sortable>
       </el-table-column>
-      <el-table-column prop="url" label="菜单路径" width="100" sortable>
+      <el-table-column prop="url" label="菜单路径" width="200" sortable>
       </el-table-column>
-      <el-table-column prop="path" label="Path" width="180" sortable>
+      <el-table-column prop="path" label="Path" width="150" sortable>
       </el-table-column>
       <el-table-column prop="state" label="状态" width="100" :filters="[{ text: '启用', value: 1 }, { text: '禁用', value: 2 }]" :filter-method="filterState" :formatter="formatState">
         <template slot-scope="scope">
@@ -41,7 +41,12 @@
       </el-table-column>
       <el-table-column prop="parentId" label="父节点Id" min-width="150" sortable>
       </el-table-column>
-      <el-table-column prop="leaf" label="叶子节点" min-width="150" sortable>
+      <el-table-column prop="createDate" label="创建时间" min-width="150" sortable>
+      </el-table-column>
+      <el-table-column prop="leaf" label="叶子节点" width="100" :filters="[{ text: '是', value: 1 }, { text: '否', value: 2 }]" :filter-method="filterState" :formatter="formatState">
+        <template slot-scope="scope">
+          <el-tag :type="scope.row.state===1 ?'primary':'success'" disable-transitions>{{formatIsOrNot(scope.row.leaf)}}</el-tag>
+        </template>
       </el-table-column>
       <el-table-column prop="iconCls" label="图标" width="300" sortable>
       </el-table-column>
