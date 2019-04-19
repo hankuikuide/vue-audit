@@ -73,5 +73,5 @@
 </script>
 
 <style lang="scss">
-@import "../sys/UserManager.css";
+@import "../sys/user/UserManager.css";
 </style>

@@ -31,12 +31,12 @@ const router = new Router({
       name: '审核'
     }, {
       path: '/opinion',
-      component: resolve => require(['../views/sys/UserManager.vue'], resolve),
+      component: resolve => require(['../views/sys/user/UserManager.vue'], resolve),
       name: '意见书'
     }, {
-      path: '/table',
-      component: resolve => require(['../views/sys/UserManager.vue'], resolve),
-      name: '表格'
+      path: '/group',
+      component: resolve => require(['../views/sys/group/GroupManager.vue'], resolve),
+      name: '组权限管理'
     }, {
       path: '/order',
       component: resolve => require(['../views/order/OrderManager.vue'], resolve),

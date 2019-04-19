@@ -1,4 +1,3 @@
-// import util from '../../common/js/util'
 import AddUser from './adduser/AddUser.vue'
 import EditUser from './edituser/EditUser.vue'
 export default {
