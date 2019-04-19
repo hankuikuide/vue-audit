@@ -26,6 +26,8 @@
       </el-table-column>
       <el-table-column type="index" label="序号" width="50" sortable>
       </el-table-column>
+      <el-table-column prop="id" label="菜单Id" width="100" sortable>
+      </el-table-column>
       <el-table-column prop="name" label="菜单名称" width="100" sortable>
       </el-table-column>
       <el-table-column prop="url" label="菜单路径" width="100" sortable>
@@ -38,6 +40,8 @@
         </template>
       </el-table-column>
       <el-table-column prop="parentId" label="父节点Id" min-width="150" sortable>
+      </el-table-column>
+      <el-table-column prop="leaf" label="叶子节点" min-width="150" sortable>
       </el-table-column>
       <el-table-column prop="iconCls" label="图标" width="300" sortable>
       </el-table-column>
@@ -56,7 +60,7 @@
       </el-pagination>
     </el-col>
 
-    <EditUser :dialogVisible.sync="editFormVisible" :editForm="editForm" v-on:listenToChildEvent="updateRowFormEditForm"></EditUser>
+    <EditMenu :dialogVisible.sync="editFormVisible" :editForm="editForm" v-on:listenToChildEvent="updateRowFormEditForm"></EditMenu>
     <AddMenu :dialogVisible.sync="addFormVisible"></AddMenu>
   </section>
 </template>

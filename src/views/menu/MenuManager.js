@@ -1,6 +1,6 @@
 // import util from '../../common/js/util'
 import AddMenu from './addmenu/AddMenu.vue'
-import EditUser from '../sys/edituser/EditUser.vue'
+import EditMenu from './editmenu/EditMenu.vue'
 export default {
   data () {
     return {
@@ -127,7 +127,7 @@ export default {
   },
   components: {
     AddMenu,
-    EditUser
+    EditMenu
   },
   mounted () {
     this.getUsers()
