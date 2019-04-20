@@ -220,33 +220,33 @@ export default {
           id: 4,
           label: '初级管理员'
         }, {
-          id: 4,
+          id: 5,
           label: '中级管理员'
         }, {
-          id: 4,
+          id: 6,
           label: '高级管理员'
         }]
       }, {
         id: 2,
         label: '普通用户',
         children: [{
-          id: 5,
+          id: 7,
           label: '黄金用户'
         }, {
-          id: 6,
+          id: 8,
           label: '钻石用户'
         }, {
-          id: 6,
+          id: 9,
           label: '荣耀用户'
         }]
       }, {
         id: 3,
         label: 'VIP',
         children: [{
-          id: 7,
+          id: 10,
           label: '一般VIP'
         }, {
-          id: 8,
+          id: 11,
           label: '贵宾VIP'
         }]
       }],

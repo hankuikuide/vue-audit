@@ -23,7 +23,18 @@
     <el-col :span="24" class="main">
       <aside :class="collapsed?'menu-collapsed':'menu-expanded'">
         <!--导航菜单-->
-        <el-menu background-color="#545c64" text-color="#fff" active-text-color="#ffd04b" :default-active="$route.path" class="el-menu-vertical-demo" @open="handleopen" @close="handleclose" @select="handleselect" unique-opened router :collapse="collapsed">
+        <el-menu
+          :background-color="variables.menuBg"
+          :text-color="variables.menuText"
+          :active-text-color="variables.menuActiveText"
+          :default-active="$route.path"
+          class="el-menu-vertical-demo"
+          @open="handleopen"
+          @close="handleclose"
+          @select="handleselect"
+          unique-opened
+          router
+          :collapse="collapsed">
           <template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
             <el-submenu :key="index" :index="index+''" v-if="!item.leaf">
               <template slot="title">
@@ -48,7 +59,7 @@
             </el-breadcrumb>
           </el-col>
           <el-col :span="24" class="content-wrapper">
-            <transition name="fade" mode="out-in">
+            <transition name="fade-transform" mode="out-in">
               <router-view></router-view>
             </transition>
           </el-col>
@@ -59,6 +70,7 @@
 </template>
 
 <script>
+import variables from '../styles/variables.scss'
 export default {
   data () {
     return {
@@ -76,6 +88,11 @@ export default {
         resource: '',
         desc: ''
       }
+    }
+  },
+  computed: {
+    variables () {
+      return variables
     }
   },
   methods: {
@@ -124,7 +141,7 @@ export default {
 
 <style scoped lang="scss">
 @import '~scss_vars';
-
+@import '../styles/variables.scss';
 .container {
   position: absolute;
   top: 0px;
@@ -158,7 +175,7 @@ export default {
       padding-left: 20px;
       padding-right: 20px;
       border-color: rgba(238, 241, 146, 0.3);
-      background-color: #545c64;
+      background-color: $menuBg;
       border-right-width: 1px;
       border-right-style: solid;
       img {
@@ -172,11 +189,13 @@ export default {
     }
     .logo-width {
       width: 230px;
+      flex: 0 0 230px;
       transition: all 0.5s ease;
     }
     .logo-collapse-width {
       transition: all 0.5s ease;
       width: 64px;
+      flex: 0 0 64px;
     }
     .tools {
       padding: 0px 23px;
@@ -196,33 +215,16 @@ export default {
     aside {
       flex: 0 0 230px;
       width: 230px;
-      background-color: #545c64;
-      // position: absolute;
-      // top: 0px;
-      // bottom: 0px;
+      background-color: $menuBg;
       .el-menu {
         height: 100%;
         border: none;
       }
-      // .collapsed {
-      //   width: 60px;
-      //   .item {
-      //     position: relative;
-      //   }
-      //   .submenu {
-      //     position: absolute;
-      //     top: 0px;
-      //     left: 60px;
-      //     z-index: 99999;
-      //     height: auto;
-      //     display: none;
-      //   }
-      // }
     }
     .menu-collapsed {
-      flex: 0 0 60px;
+      flex: 0 0 64px;
       transition: all 0.5s ease;
-      width: 60px;
+      width: 64px;
     }
     .menu-expanded {
       flex: 0 0 230px;
