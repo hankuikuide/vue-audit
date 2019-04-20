@@ -19,49 +19,27 @@
         </el-form-item>
       </el-form>
     </el-col>
-
-    <el-col :span="6" class="toolbar" style="padding-bottom: 0px;">
-      <el-form>
-        <el-form-item label="组信息" prop="name">
-        </el-form-item>
-      </el-form>
-
-      <el-tree ref="grouptree" @node-click="handleNodeClick" :data="data" node-key="id" :default-expanded-keys="[1, 2, 3]" :default-checked-keys="[5]" :props="defaultProps">
-      </el-tree>
-    </el-col>
-    <el-col :span="18" class="toolbar" style="padding-bottom: 0px;">
-      <el-form>
-        <el-form-item label="所选择组：" prop="name">{{ groupName }}
-        </el-form-item>
-        <el-tabs :tab-position="tabPosition" style="height: 200px;">
-          <el-tab-pane label="包含用户">
-          <!-- <el-form-item label="包含用户" prop="name">
-          </el-form-item> -->
-               <!--列表-->
-          <el-table :data="users" :row-style="{height:0}" :header-row-style="{height:0}" :header-cell-style="{padding:0}" :cell-style="{padding:0}" highlight-current-row v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
-            <el-table-column type="selection" width="45">
-            </el-table-column>
-            <el-table-column prop="name" label="用户名" width="100" sortable>
-            </el-table-column>
-            <el-table-column prop="userName" label="姓名" width="100" sortable>
-            </el-table-column>
-            <el-table-column prop="email" label="邮箱" min-width="200" sortable>
-            </el-table-column>
-            <el-table-column prop="lastDate" label="最近登录时间" width="180" sortable>
-            </el-table-column>
-            <el-table-column prop="loginCount" label="登录次数" width="120" sortable>
-            </el-table-column>
-          </el-table>
-          </el-tab-pane>
-          <el-tab-pane label="所属角色">所属角色
-            <tree-table :data="rowData" :columns="columns" border/>
-          </el-tab-pane>
-          <el-tab-pane label="组权限">组权限</el-tab-pane>
-          <el-tab-pane label="总权限">总权限</el-tab-pane>
-        </el-tabs>
-      </el-form>
-    </el-col>
-
+       <!--列表-->
+    <el-table :data="users" :row-style="{height:0}" :header-row-style="{height:0}" :header-cell-style="{padding:0}" :cell-style="{padding:0}" highlight-current-row v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
+      <el-table-column type="selection" width="45">
+      </el-table-column>
+      <el-table-column type="index" label="序号" width="50" sortable>
+      </el-table-column>
+      <el-table-column prop="name" label="操作名称" width="150" sortable>
+      </el-table-column>
+      <el-table-column prop="content" label="操作内容" width="400" sortable>
+      </el-table-column>
+      <el-table-column prop="operator" label="操作人" width="180" sortable>
+      </el-table-column>
+      <el-table-column prop="createDate" label="操作时间" width="180" sortable>
+      </el-table-column>
+      <el-table-column label="操作" width="150">
+        <template slot-scope="scope">
+          <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+          <el-button type="danger" size="small" @click="handleDel(scope.$index, scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
     <!--工具条-->
     <el-col :span="24" class="toolbar">
       <el-button type="danger" size="small" @click="batchRemove" :disabled="this.sels.length===0">批量删除</el-button>

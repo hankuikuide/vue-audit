@@ -22,7 +22,7 @@
 
     <el-col :span="6" class="toolbar" style="padding-bottom: 0px;">
       <el-form>
-        <el-form-item label="组信息" prop="name">
+        <el-form-item label="角色信息" prop="name">
         </el-form-item>
       </el-form>
 
@@ -31,7 +31,7 @@
     </el-col>
     <el-col :span="18" class="toolbar" style="padding-bottom: 0px;">
       <el-form>
-        <el-form-item label="所选择组：" prop="name">{{ groupName }}
+        <el-form-item label="所选择角色：" prop="name">{{ groupName }}
         </el-form-item>
         <el-tabs :tab-position="tabPosition" style="height: 200px;">
           <el-tab-pane label="包含用户">
@@ -53,11 +53,10 @@
             </el-table-column>
           </el-table>
           </el-tab-pane>
-          <el-tab-pane label="所属角色">所属角色
+          <el-tab-pane label="包含组">包含组
             <tree-table :data="rowData" :columns="columns" border/>
           </el-tab-pane>
-          <el-tab-pane label="组权限">组权限</el-tab-pane>
-          <el-tab-pane label="总权限">总权限</el-tab-pane>
+          <el-tab-pane label="角色权限">角色权限</el-tab-pane>
         </el-tabs>
       </el-form>
     </el-col>
@@ -216,37 +215,39 @@ export default {
       }],
       data: [{
         id: 1,
-        label: '技术中心',
+        label: '管理员',
         children: [{
           id: 4,
-          label: '一部',
-          children: [{
-            id: 9,
-            label: '一组'
-          }, {
-            id: 10,
-            label: '二组'
-          }]
+          label: '初级管理员'
+        }, {
+          id: 4,
+          label: '中级管理员'
+        }, {
+          id: 4,
+          label: '高级管理员'
         }]
       }, {
         id: 2,
-        label: '数据中心',
+        label: '普通用户',
         children: [{
           id: 5,
-          label: '一部'
+          label: '黄金用户'
         }, {
           id: 6,
-          label: '二部'
+          label: '钻石用户'
+        }, {
+          id: 6,
+          label: '荣耀用户'
         }]
       }, {
         id: 3,
-        label: '研发中心',
+        label: 'VIP',
         children: [{
           id: 7,
-          label: '一部'
+          label: '一般VIP'
         }, {
           id: 8,
-          label: '二部'
+          label: '贵宾VIP'
         }]
       }],
       defaultProps: {

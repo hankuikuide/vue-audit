@@ -23,24 +23,24 @@ const router = new Router({
   {
     path: '/',
     component: resolve => require(['../views/Home.vue'], resolve),
-    name: '原生控件',
+    name: '权限管理',
     iconCls: 'el-icon-location',
     children: [{
-      path: '/audit',
-      component: resolve => require(['../views/audit/Audit.vue'], resolve),
-      name: '审核'
-    }, {
-      path: '/opinion',
-      component: resolve => require(['../views/sys/user/UserManager.vue'], resolve),
-      name: '意见书'
-    }, {
       path: '/group',
       component: resolve => require(['../views/sys/group/GroupManager.vue'], resolve),
       name: '组权限管理'
     }, {
-      path: '/order',
-      component: resolve => require(['../views/order/OrderManager.vue'], resolve),
-      name: '订单'
+      path: '/role',
+      component: resolve => require(['../views/sys/role/RoleManager.vue'], resolve),
+      name: '角色权限管理'
+    }, {
+      path: '/user',
+      component: resolve => require(['../views/sys/user/UserService.vue'], resolve),
+      name: '用户权限管理'
+    }, {
+      path: '/log',
+      component: resolve => require(['../views/sys/log/LogManager.vue'], resolve),
+      name: '操作日志'
     }]
   }
     /* , {
