@@ -33,7 +33,7 @@
       <el-form>
         <el-form-item label="所选择角色：" prop="name">{{ groupName }}
         </el-form-item>
-        <el-tabs :tab-position="tabPosition" style="height: 200px;">
+        <el-tabs :tab-position="tabPosition">
           <el-tab-pane label="包含用户">
           <!-- <el-form-item label="包含用户" prop="name">
           </el-form-item> -->

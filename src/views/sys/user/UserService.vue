@@ -4,12 +4,16 @@
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
       <el-form :inline="true" :model="filters">
         <el-form-item>
-          <el-input v-model="filters.name" size="small" placeholder="姓名" @keyup.enter.native="getUsers"></el-input>
+          <selecttree
+            :props="props"
+            :options="list"
+            :value="valueId"
+            :clearable="isClearable"
+            :accordion="isAccordion"
+            @getValue="getValue($event)"/>
         </el-form-item>
         <el-form-item>
-          <el-select v-model="filters.recipe" size="small">
-            <el-option v-for="item in $store.state.recipes" :key="item.value" :label="item.label" :value="item.value"></el-option>
-          </el-select>
+          <el-input v-model="filters.name" size="small" placeholder="姓名" @keyup.enter.native="getUsers"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" size="small" v-on:click="getUsers">查询</el-button>
@@ -19,257 +23,245 @@
         </el-form-item>
       </el-form>
     </el-col>
-
-    <el-col :span="6" class="toolbar" style="padding-bottom: 0px;">
+    <!--列表-->
+    <el-table
+        :data="users"
+        :row-style="{height:0}"
+        :header-row-style="{height:0}"
+        :header-cell-style="{padding:0}"
+        :cell-style="{padding:0}"
+        highlight-current-row
+        v-loading="listLoading"
+        @selection-change="selsChange"
+        @row-click="rowClick"
+        style="width: 100%;">
+      <el-table-column type="selection" width="45">
+      </el-table-column>
+      <el-table-column type="index" label="序号" width="50" sortable>
+      </el-table-column>
+      <el-table-column prop="name" label="用户名" width="100" sortable>
+      </el-table-column>
+      <el-table-column label="姓名" width="100" sortable>
+        <template slot-scope="scope">
+          <el-button type="text">{{scope.row.userName}}</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column prop="createDate" label="创建日期" width="180" sortable>
+      </el-table-column>
+      <el-table-column prop="state" label="状态" width="100" :filters="[{ text: '启用', value: 1 }, { text: '禁用', value: 2 }]" :filter-method="filterState" :formatter="formatState">
+        <template slot-scope="scope">
+          <el-tag :type="scope.row.state===1 ?'primary':'success'" disable-transitions>{{formatState(scope.row.state)}}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column prop="email" label="邮箱" min-width="150" sortable>
+      </el-table-column>
+      <el-table-column label="操作" align="center" width="230">
+        <template slot-scope="scope">
+          <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">查看</el-button>
+          <!-- <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button> -->
+          <el-button type="danger" size="small" @click="handleDel(scope.$index, scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
       <el-form>
-        <el-form-item label="组信息" prop="name">
+        <el-form-item label="所选择用户：" prop="name">{{ userName }}
+          <el-button type="danger" size="small" @click="batchRemove" :disabled="this.sels.length===0"  style="float:right;">批量删除</el-button>
+          <el-pagination layout="total, sizes, prev, pager, next" @size-change="handleSizeChange" @current-change="handleCurrentChange" :page-sizes="[5,10,20,30,40]" :page-size="pageSize" :total="total" style="float:right;">
+          </el-pagination>
         </el-form-item>
-      </el-form>
-
-      <el-tree ref="grouptree" @node-click="handleNodeClick" :data="data" node-key="id" :default-expanded-keys="[1, 2, 3]" :default-checked-keys="[5]" :props="defaultProps">
-      </el-tree>
-    </el-col>
-    <el-col :span="18" class="toolbar" style="padding-bottom: 0px;">
-      <el-form>
-        <el-form-item label="所选择组：" prop="name">{{ groupName }}
-        </el-form-item>
-        <el-tabs :tab-position="tabPosition" style="height: 200px;">
-          <el-tab-pane label="包含用户">
-          <!-- <el-form-item label="包含用户" prop="name">
-          </el-form-item> -->
-               <!--列表-->
-          <el-table :data="users" :row-style="{height:0}" :header-row-style="{height:0}" :header-cell-style="{padding:0}" :cell-style="{padding:0}" highlight-current-row v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
-            <el-table-column type="selection" width="45">
-            </el-table-column>
-            <el-table-column prop="name" label="用户名" width="100" sortable>
-            </el-table-column>
-            <el-table-column prop="userName" label="姓名" width="100" sortable>
-            </el-table-column>
-            <el-table-column prop="email" label="邮箱" min-width="200" sortable>
-            </el-table-column>
-            <el-table-column prop="lastDate" label="最近登录时间" width="180" sortable>
-            </el-table-column>
-            <el-table-column prop="loginCount" label="登录次数" width="120" sortable>
-            </el-table-column>
-          </el-table>
+        <el-tabs :tab-position="tabPosition">
+          <el-tab-pane label="所属角色">
+            <div v-for="o in 2" :key="o" class="text item" style="float:left; margin:10px">
+              <el-tag size="medium">{{ '用户角色 ' + o }}</el-tag>
+            </div>
+            <!-- 解决float：left换行的问题 -->
+            <div style="clear:both"></div>
+            <el-button style="margin:10px;" type="primary" size="small" @click="handleEdit">编辑角色</el-button>
           </el-tab-pane>
-          <el-tab-pane label="所属角色">所属角色
-            <tree-table :data="rowData" :columns="columns" border/>
+          <el-tab-pane label="所属组">
+            <div v-for="o in 2" :key="o" class="text item" style="float:left; margin:10px">
+              <el-tag size="medium">{{ '用户组 ' + o }}</el-tag>
+            </div>
+            <!-- 解决float：left换行的问题 -->
+            <div style="clear:both"></div>
+            <el-button style="margin:10px;" type="primary" size="small" @click="handleEdit">编辑组</el-button>
           </el-tab-pane>
-          <el-tab-pane label="组权限">组权限</el-tab-pane>
+          <el-tab-pane label="用户权限">用户权限</el-tab-pane>
           <el-tab-pane label="总权限">总权限</el-tab-pane>
         </el-tabs>
       </el-form>
     </el-col>
-
-    <!--工具条-->
-    <el-col :span="24" class="toolbar">
-      <el-button type="danger" size="small" @click="batchRemove" :disabled="this.sels.length===0">批量删除</el-button>
-    </el-col>
+    <editrole :dialogVisible.sync="editFormVisible" :editForm="editForm" v-on:listenToChildEvent="updateRowFormEditForm"></editrole>
   </section>
 </template>
 <script>
-import Mock from 'mockjs'
-import treeTable from '../../../components/TreeTable'
+import selecttree from '../../../components/TreeSelect'
+import editrole from '../EditRole'
 import { getTreeLabel } from '../../../util/util'
 export default {
   data () {
     return {
-      groupName: '',
+      userName: '',
       tabPosition: 'left',
       filters: {
         name: '',
         recipe: ''
       },
       sels: [],
+      editFormVisible: false, // 编辑界面是否显示
       listLoading: false,
       addLoading: false,
+      isClearable: true, // 可清空（可选）
+      isAccordion: true, // 可收起（可选）
+      valueId: null, // 初始ID（可选）
+      props: { // 配置项（必选）
+        value: 'id',
+        label: 'title',
+        children: 'children'
+        // disabled:true
+      },
+      // 编辑界面数据
+      editForm: {
+        id: 0,
+        name: '',
+        sex: -1,
+        age: 0,
+        birth: '',
+        state: 0
+      },
+      // 选项列表（必选）
+      list: [
+        {
+          id: 1,
+          title: '技术中心',
+          parentId: 0,
+          children: [
+            {
+              id: 2,
+              title: '一部'
+            }, {
+              id: 3,
+              title: '二部'
+            }
+          ]
+        }, {
+          id: 4,
+          title: '培训中心',
+          parentId: 0,
+          disabled: true,
+          children: [
+            {
+              id: 5,
+              title: '新员工培训'
+            }, {
+              id: 6,
+              title: '技能培训'
+            }
+          ]
+        }, {
+          id: 7,
+          title: '集团中心',
+          parentId: 0,
+          children: [
+            {
+              id: 8,
+              title: '人事部'
+            }, {
+              id: 9,
+              title: '行政部'
+            }
+          ]
+        }
+      ],
+      users: [],
+      total: 0,
+      pageNum: 0,
+      pageSize: 5,
       addFormRules: {
         name: [{
           required: true,
           message: '请输入姓名',
           trigger: 'blur'
         }]
-      },
-      columns: [
-        {
-          text: '事件',
-          value: 'event',
-          width: 200
-        },
-        {
-          text: 'ID',
-          value: 'id'
-        }
-      ],
-      rowData: [
-        {
-          id: 0,
-          event: '事件1',
-          timeLine: 50,
-          comment: '无'
-        }, {
-          id: 1,
-          event: '事件1',
-          timeLine: 100,
-          comment: '无',
-          children: [
-            {
-              id: 2,
-              event: '事件2',
-              timeLine: 10,
-              comment: '无'
-            },
-            {
-              id: 3,
-              event: '事件3',
-              timeLine: 90,
-              comment: '无',
-              children: [
-                {
-                  id: 4,
-                  event: '事件4',
-                  timeLine: 5,
-                  comment: '无'
-                },
-                {
-                  id: 5,
-                  event: '事件5',
-                  timeLine: 10,
-                  comment: '无'
-                },
-                {
-                  id: 6,
-                  event: '事件6',
-                  timeLine: 75,
-                  comment: '无',
-                  children: [
-                    {
-                      id: 7,
-                      event: '事件7',
-                      timeLine: 50,
-                      comment: '无',
-                      children: [
-                        {
-                          id: 71,
-                          event: '事件71',
-                          timeLine: 25,
-                          comment: 'xx'
-                        },
-                        {
-                          id: 72,
-                          event: '事件72',
-                          timeLine: 5,
-                          comment: 'xx'
-                        },
-                        {
-                          id: 73,
-                          event: '事件73',
-                          timeLine: 20,
-                          comment: 'xx'
-                        }
-                      ]
-                    },
-                    {
-                      id: 8,
-                      event: '事件8',
-                      timeLine: 25,
-                      comment: '无'
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      users: [{
-        name: Mock.Random.first(),
-        userName: Mock.Random.cname(),
-        email: Mock.Random.email(),
-        lastDate: Mock.Random.datetime(),
-        loginCount: Mock.Random.integer(60, 100)
-      }, {
-        name: Mock.Random.first(),
-        userName: Mock.Random.cname(),
-        email: Mock.Random.email(),
-        lastDate: Mock.Random.datetime(),
-        loginCount: Mock.Random.integer(60, 100)
-      }, {
-        name: Mock.Random.first(),
-        userName: Mock.Random.cname(),
-        email: Mock.Random.email(),
-        lastDate: Mock.Random.datetime(),
-        loginCount: Mock.Random.integer(60, 100)
-      }, {
-        name: Mock.Random.first(),
-        userName: Mock.Random.cname(),
-        email: Mock.Random.email(),
-        lastDate: Mock.Random.datetime(),
-        loginCount: Mock.Random.integer(60, 100)
-      }, {
-        name: Mock.Random.first(),
-        userName: Mock.Random.cname(),
-        email: Mock.Random.email(),
-        lastDate: Mock.Random.datetime(),
-        loginCount: Mock.Random.integer(60, 100)
-      }],
-      data: [{
-        id: 1,
-        label: '技术中心',
-        children: [{
-          id: 4,
-          label: '一部',
-          children: [{
-            id: 9,
-            label: '一组'
-          }, {
-            id: 10,
-            label: '二组'
-          }]
-        }]
-      }, {
-        id: 2,
-        label: '数据中心',
-        children: [{
-          id: 5,
-          label: '一部'
-        }, {
-          id: 6,
-          label: '二部'
-        }]
-      }, {
-        id: 3,
-        label: '研发中心',
-        children: [{
-          id: 7,
-          label: '一部'
-        }, {
-          id: 8,
-          label: '二部'
-        }]
-      }],
-      defaultProps: {
-        children: 'children',
-        label: 'label'
       }
     }
   },
-  components: { treeTable },
+  components: {
+    selecttree,
+    editrole
+  },
   methods: {
+    filterState: function (value, row) {
+      return row.state === value
+    },
+    // 状态转换
+    formatState: function (value) {
+      if (value === 1 || value === 2) {
+        return this.$store.getters.formatState(value)
+      } else {
+        return ''
+      }
+    },
+    // 显示编辑界面
+    handleEdit: function () {
+      this.editFormVisible = true
+    },
+    updateRowFormEditForm: function (row) {
+      // TODO 是否进一步优化
+      this.users.forEach(user => {
+        if (user.id === row.id) {
+          user.userName = row.userName
+          user.name = row.name
+          user.createDate = row.createDate
+          user.state = parseInt(row.state)
+          user.email = row.email
+          user.address = row.address
+        }
+      })
+    },
+    rowClick (row, column, event) {
+      this.userName = row.userName
+      this.editForm = Object.assign({}, row)
+    },
     handleNodeClick (node, data, value) {
       let name = getTreeLabel(data)
       let startIndex = name.indexOf('/') + 1
-      this.groupName = name.substring(startIndex)
+      this.userName = name.substring(startIndex)
+    },
+    // 获取用户列表
+    getUsers () {
+      let para = {
+        pageNum: this.pageNum,
+        pageSize: this.pageSize,
+        name: this.filters.name
+      }
+      this.listLoading = true
+      this.postRequest('/user/getAllUsers', para).then((res) => {
+        this.total = res.data.data.total
+        this.users = res.data.data.list
+        this.listLoading = false
+      }).catch(err => {
+        this.listLoading = false
+        console.dir(err)
+      })
+    },
+    handleCurrentChange (val) {
+      this.pageNum = val - 1
+      this.getUsers()
+    },
+    handleSizeChange: function (val) {
+      console.dir('page size :' + val)
     },
     handleAdd () {
 
     },
+    getValue (value) {
+      this.valueId = value
+      console.log(this.valueId)
+    },
     selsChange (sels) {
       this.sels = sels
-    },
-    getUsers () {
-
     },
     // 新增
     addSubmit () {
@@ -280,6 +272,9 @@ export default {
     },
     onClose () {
     }
+  },
+  mounted () {
+    this.getUsers()
   }
 }
 </script>

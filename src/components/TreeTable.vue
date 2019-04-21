@@ -1,5 +1,6 @@
 <template>
- <el-table ref="multipleTable" :data="formatData" :row-style="showRow" v-bind="$attrs">   <!--  @header-click="chooseall" -->
+ <el-table ref="multipleTable" :data="formatData" :row-style="showRow" v-bind="$attrs"
+ :header-row-style="{height:0}" :header-cell-style="{padding:'6px 0'}" :cell-style="{padding:'6px 0'}" style="width: 100%;">   <!--  @header-click="chooseall" -->
     <el-table-column :render-header="renderHeader" width="50" align="center">
       <template slot-scope="scope">
         <el-checkbox v-model="scope.row.checks" @change="toselect(scope.row)"></el-checkbox>
@@ -90,7 +91,7 @@ export default {
     },
     // 图标显示
     iconShow(index, record) {
-      return index === 0 && record.child && record.child.length > 0;
+      return index === 0 && record.children && record.children.length > 0;
     },
  
     //设置表头全选
@@ -111,8 +112,8 @@ export default {
       arr.forEach((v, i) => {
         v.checks = key;
         // v._expanded = key;//选中后展开子项
-        if (v.child) {
-          this.setchildtobeselect(v.child, v.checks);
+        if (v.children) {
+          this.setchildtobeselect(v.children, v.checks);
         }
       });
     },
@@ -122,34 +123,34 @@ export default {
         if (!v.checks) {
           this.key = false;
         }
-        if (v.child) {
-          this.isallchecked(v.child);
+        if (v.children) {
+          this.isallchecked(v.children);
         }
       });
     },
     //设置父级为 未选中状态（父级的父级没改变-有bug）
     setparentfalse(arr, id, level) {
       arr.forEach((v, i) => {
-        if (v._level == level - 1 && v.child) {
-          v.child.forEach((val, ind) => {
+        if (v._level == level - 1 && v.children) {
+          v.children.forEach((val, ind) => {
             if (val.id == id) {
               v.checks = false;
               return false; //终止此次循环，减少循环次数
             }
           });
         }
-        if (v.child) {
-          this.setparentfalse(v.child, id, level);
+        if (v.children) {
+          this.setparentfalse(v.children, id, level);
         }
       });
     },
     //设置父级为 选中状态
     setparenttrue(arr, id, level) {
       arr.forEach((v, i) => {
-        if (v._level == level - 1 && v.child) {
+        if (v._level == level - 1 && v.children) {
           let key = true;
           let sameidkey = false;
-          v.child.forEach((val, ind) => {
+          v.children.forEach((val, ind) => {
             if (val.id == id) {
               //确保当前点击的在该父级内
               sameidkey = true;
@@ -162,8 +163,8 @@ export default {
             v.checks = true;
           }
         }
-        if (v.child) {
-          this.setparentfalse(v.child, id, level);
+        if (v.children) {
+          this.setparentfalse(v.children, id, level);
         }
       });
     },
@@ -172,8 +173,8 @@ export default {
       console.log(row);
       // row._expanded = row.checks;//选中后是否展开
       //1、若有子集先让子选中
-      if (row.child) {
-        this.setchildtobeselect(row.child, row.checks);
+      if (row.children) {
+        this.setchildtobeselect(row.children, row.checks);
       }
       //2、然后判断是否全选中
       this.key = true; //重置为true，防止上次已经是false的状态
@@ -234,7 +235,7 @@ export default {
   font-weight: 400;
   line-height: 1;
   width: 18px;
-  height: 14px;
+  /* height: 14px; */
 }
 .ms-tree-space::before {
   content: "";
