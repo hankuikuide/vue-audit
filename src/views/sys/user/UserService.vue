@@ -72,11 +72,7 @@
         </el-form-item>
         <el-tabs :tab-position="tabPosition">
           <el-tab-pane label="所属角色">
-            <div v-for="o in 2" :key="o" class="text item" style="float:left; margin:10px">
-              <el-tag size="medium">{{ '用户角色 ' + o }}</el-tag>
-            </div>
-            <!-- 解决float：left换行的问题 -->
-            <div style="clear:both"></div>
+            <el-tree :data="userRole" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
             <el-button style="margin:10px;" type="primary" size="small" @click="handleEdit">编辑角色</el-button>
           </el-tab-pane>
           <el-tab-pane label="所属组">
@@ -184,7 +180,29 @@ export default {
           message: '请输入姓名',
           trigger: 'blur'
         }]
-      }
+      },
+      userRole: [{
+        label: '一级 1',
+        children: [{
+          label: '二级 1-1',
+          children: [{
+            label: '三级 1-1-1'
+          }]
+        }]
+      }, {
+        label: '一级 2',
+        children: [{
+          label: '二级 2-1',
+          children: [{
+            label: '三级 2-1-1'
+          }]
+        }, {
+          label: '二级 2-2',
+          children: [{
+            label: '三级 2-2-1'
+          }]
+        }]
+      }]
     }
   },
   components: {
