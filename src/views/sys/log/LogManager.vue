@@ -14,9 +14,6 @@
         <el-form-item>
           <el-button type="primary" size="small" v-on:click="getUsers">查询</el-button>
         </el-form-item>
-        <el-form-item>
-          <el-button type="primary" size="small" @click="handleAdd">新增</el-button>
-        </el-form-item>
       </el-form>
     </el-col>
        <!--列表-->
@@ -35,7 +32,6 @@
       </el-table-column>
       <el-table-column label="操作" width="150">
         <template slot-scope="scope">
-          <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           <el-button type="danger" size="small" @click="handleDel(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
@@ -47,9 +43,6 @@
   </section>
 </template>
 <script>
-import Mock from 'mockjs'
-import treeTable from '../../../components/TreeTable'
-import { getTreeLabel } from '../../../util/util'
 export default {
   data () {
     return {
@@ -61,6 +54,7 @@ export default {
       },
       sels: [],
       listLoading: false,
+      users: [],
       addLoading: false,
       addFormRules: {
         name: [{
@@ -68,196 +62,32 @@ export default {
           message: '请输入姓名',
           trigger: 'blur'
         }]
-      },
-      columns: [
-        {
-          text: '事件',
-          value: 'event',
-          width: 200
-        },
-        {
-          text: 'ID',
-          value: 'id'
-        }
-      ],
-      rowData: [
-        {
-          id: 0,
-          event: '事件1',
-          timeLine: 50,
-          comment: '无'
-        }, {
-          id: 1,
-          event: '事件1',
-          timeLine: 100,
-          comment: '无',
-          children: [
-            {
-              id: 2,
-              event: '事件2',
-              timeLine: 10,
-              comment: '无'
-            },
-            {
-              id: 3,
-              event: '事件3',
-              timeLine: 90,
-              comment: '无',
-              children: [
-                {
-                  id: 4,
-                  event: '事件4',
-                  timeLine: 5,
-                  comment: '无'
-                },
-                {
-                  id: 5,
-                  event: '事件5',
-                  timeLine: 10,
-                  comment: '无'
-                },
-                {
-                  id: 6,
-                  event: '事件6',
-                  timeLine: 75,
-                  comment: '无',
-                  children: [
-                    {
-                      id: 7,
-                      event: '事件7',
-                      timeLine: 50,
-                      comment: '无',
-                      children: [
-                        {
-                          id: 71,
-                          event: '事件71',
-                          timeLine: 25,
-                          comment: 'xx'
-                        },
-                        {
-                          id: 72,
-                          event: '事件72',
-                          timeLine: 5,
-                          comment: 'xx'
-                        },
-                        {
-                          id: 73,
-                          event: '事件73',
-                          timeLine: 20,
-                          comment: 'xx'
-                        }
-                      ]
-                    },
-                    {
-                      id: 8,
-                      event: '事件8',
-                      timeLine: 25,
-                      comment: '无'
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      users: [{
-        name: Mock.Random.first(),
-        userName: Mock.Random.cname(),
-        email: Mock.Random.email(),
-        lastDate: Mock.Random.datetime(),
-        loginCount: Mock.Random.integer(60, 100)
-      }, {
-        name: Mock.Random.first(),
-        userName: Mock.Random.cname(),
-        email: Mock.Random.email(),
-        lastDate: Mock.Random.datetime(),
-        loginCount: Mock.Random.integer(60, 100)
-      }, {
-        name: Mock.Random.first(),
-        userName: Mock.Random.cname(),
-        email: Mock.Random.email(),
-        lastDate: Mock.Random.datetime(),
-        loginCount: Mock.Random.integer(60, 100)
-      }, {
-        name: Mock.Random.first(),
-        userName: Mock.Random.cname(),
-        email: Mock.Random.email(),
-        lastDate: Mock.Random.datetime(),
-        loginCount: Mock.Random.integer(60, 100)
-      }, {
-        name: Mock.Random.first(),
-        userName: Mock.Random.cname(),
-        email: Mock.Random.email(),
-        lastDate: Mock.Random.datetime(),
-        loginCount: Mock.Random.integer(60, 100)
-      }],
-      data: [{
-        id: 1,
-        label: '技术中心',
-        children: [{
-          id: 4,
-          label: '一部',
-          children: [{
-            id: 9,
-            label: '一组'
-          }, {
-            id: 10,
-            label: '二组'
-          }]
-        }]
-      }, {
-        id: 2,
-        label: '数据中心',
-        children: [{
-          id: 5,
-          label: '一部'
-        }, {
-          id: 6,
-          label: '二部'
-        }]
-      }, {
-        id: 3,
-        label: '研发中心',
-        children: [{
-          id: 7,
-          label: '一部'
-        }, {
-          id: 8,
-          label: '二部'
-        }]
-      }],
-      defaultProps: {
-        children: 'children',
-        label: 'label'
       }
     }
   },
-  components: { treeTable },
   methods: {
-    handleNodeClick (node, data, value) {
-      let name = getTreeLabel(data)
-      let startIndex = name.indexOf('/') + 1
-      this.groupName = name.substring(startIndex)
-    },
-    handleAdd () {
-
-    },
     selsChange (sels) {
       this.sels = sels
     },
     getUsers () {
-
-    },
-    // 新增
-    addSubmit () {
-
+      this.listLoading = true
+      this.getRequest('/logs').then((res) => {
+        this.total = res.data.data.total
+        this.users = res.data.data
+        this.listLoading = false
+      }).catch(err => {
+        this.listLoading = false
+        console.dir(err)
+      })
     },
     batchRemove () {
 
     },
     onClose () {
     }
+  },
+  mounted () {
+    this.getUsers()
   }
 }
 </script>
