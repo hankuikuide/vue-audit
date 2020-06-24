@@ -1,41 +1,19 @@
 <template>
   <section>
-    <el-row :gutter="40" class="panel-group">
       <el-col
-        :xs="12"
-        :sm="12"
-        :lg="6"
-        class="card-panel-col"
+        :span="24"
+        class="panel-group card-panel-col"
         v-for="(item, index) in books"
         :key="index"
       >
-        <div class="card-panel" @click="itemClick(item)">
-          <div class="card-panel-icon-wrapper icon-people">
-          </div>
+        <div class="card-panel"  @click="itemClick(item)">
+          <div class="card-panel-icon-wrapper icon-people"></div>
           <div class="card-panel-description">
             <div class="card-panel-text">{{item.name}}</div>
             <count-to :start-val="0" :end-val="24" :duration="2600" class="card-panel-num" />
           </div>
         </div>
       </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="8" v-for="(o, index) in 2" :key="o" :offset="index > 0 ? 2 : 0">
-        <el-card :body-style="{ padding: '0px' }">
-          <img
-            src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            class="image"
-          />
-          <div style="padding: 14px;">
-            <span>好吃的汉堡</span>
-            <div class="bottom clearfix">
-              <time class="time">{{ currentDate }}</time>
-              <el-button type="text" class="button">操作按钮</el-button>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
   </section>
 </template>
 
@@ -53,13 +31,14 @@ export default {
   },
   methods: {
     itemClick (item) {
-      this.$router.push('/lession')
+      this.$router.push('/syspaly')
       console.dir(item)
     }
   },
   mounted () {
-    this.getRequest('/book/getBooks')
+    this.getRequest('/lession/getLessions')
       .then(res => {
+        console.dir(res.data.data)
         this.books = res.data.data
       })
       .catch(err => {
@@ -102,21 +81,24 @@ export default {
         background: #34bfa3;
       }
     }
-    .icon-people {
-      color: #40c9c6;
-    }
-    .icon-message {
-      color: #36a3f7;
-    }
-    .icon-money {
-      color: #f4516c;
-    }
-    .icon-shopping {
-      color: #34bfa3;
-    }
+    .card-panel-icon-wrapper {
+        color: #fff;
+      }
+      .icon-people {
+        background: #40c9c6;
+      }
+      .icon-message {
+        background: #36a3f7;
+      }
+      .icon-money {
+        background: #f4516c;
+      }
+      .icon-shopping {
+        background: #34bfa3;
+      }
     .card-panel-icon-wrapper {
       float: left;
-      margin: 14px 0 0 14px;
+      margin: 20px 0 0 14px;
       padding: 16px;
       transition: all 0.38s ease-out;
       border-radius: 6px;
@@ -126,10 +108,10 @@ export default {
       font-size: 48px;
     }
     .card-panel-description {
-      float: right;
+      float: left;
       font-weight: bold;
       margin: 26px;
-      margin-left: 0px;
+      margin-left: 20px;
       .card-panel-text {
         line-height: 18px;
         color: rgba(0, 0, 0, 0.45);

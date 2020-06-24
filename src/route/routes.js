@@ -50,8 +50,8 @@ const router = new Router({
       component: resolve => require(['../views/audio/Book.vue'], resolve),
       name: '书箱列表'
     }, {
-      path: '/lesson',
-      component: resolve => require(['../views/audio/Book.vue'], resolve),
+      path: '/lession',
+      component: resolve => require(['../views/audio/Lession.vue'], resolve),
       name: '课程列表'
     }]
   }

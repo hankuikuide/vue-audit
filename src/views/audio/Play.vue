@@ -28,7 +28,7 @@
     <el-table :data="subTitles" :row-style="{height:0}" :header-row-style="{height:0}" :header-cell-style="{padding:0}" :cell-style="{padding:0}" highlight-current-row v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
       <el-table-column type="selection" width="45">
       </el-table-column>
-      <el-table-column type="id" label="序号" width="50" sortable>
+      <el-table-column type="id" label="序号" width="80" sortable>
       </el-table-column>
       <el-table-column prop="startTime" label="开始时间" width="150" sortable>
       </el-table-column>
