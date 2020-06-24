@@ -41,27 +41,20 @@ const router = new Router({
       path: '/log',
       component: resolve => require(['../views/sys/log/LogManager.vue'], resolve),
       name: '操作日志'
+    }, {
+      path: '/syspaly',
+      component: resolve => require(['../views/audio/Play.vue'], resolve),
+      name: '听录音'
+    }, {
+      path: '/showbook',
+      component: resolve => require(['../views/audio/Book.vue'], resolve),
+      name: '书箱列表'
+    }, {
+      path: '/lesson',
+      component: resolve => require(['../views/audio/Book.vue'], resolve),
+      name: '课程列表'
     }]
   }
-    /* , {
-        path: '/',
-        component: resolve => require(['../views/Home.vue'], resolve),
-        name: '系统管理',
-        iconCls: 'el-icon-view',
-        children: [{
-          path: '/dropdowntree',
-          component: resolve => require(['../views/sys/UserManager.vue'], resolve),
-          name: '用户管理'
-        }, {
-          path: '/dropdowntable',
-          component: resolve => require(['../views/sys/UserManager.vue'], resolve),
-          name: '角色管理'
-        }, {
-          path: '/menu',
-          component: resolve => require(['../views/menu/MenuManager.vue'], resolve),
-          name: '菜单管理'
-        }]
-      } */
   ]
 })
 
