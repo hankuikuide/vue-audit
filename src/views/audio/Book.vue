@@ -1,6 +1,6 @@
 <template>
   <section>
-    <el-row :gutter="40" class="panel-group">
+    <el-row :gutter="40" class="panel-group" align="middle">
       <el-col
         :xs="12"
         :sm="12"
@@ -20,10 +20,10 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="8" v-for="(o, index) in 2" :key="o" :offset="index > 0 ? 2 : 0">
-        <el-card :body-style="{ padding: '0px' }">
-          <img
-            src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+      <el-col :span="8" v-for="(o) in 2" :key="o">
+        <el-card style="width:250px; height:400px" :body-style="{ padding: '0px' }">
+          <img style="width:250px; height:300px"
+            src="/static/img/junior1.jpg"
             class="image"
           />
           <div style="padding: 14px;">
@@ -72,6 +72,7 @@ export default {
 <style lang="scss" scoped>
 .panel-group {
   margin-top: 18px;
+  width: 80%;
   .card-panel-col {
     margin-bottom: 32px;
   }

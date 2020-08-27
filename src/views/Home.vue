@@ -1,15 +1,33 @@
 <template>
   <el-row class="container">
-    <el-col :span="24" class="header">
-      <el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
-        {{collapsed?'':sysName}}
+      <el-col :span="24" class="header" :background-color="variables.menuBg">
+        <el-col :span="7" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
+        </el-col>
+        <el-col :span="15">
+          <el-menu
+              :default-active="$route.path"
+              class="el-menu-demo"
+              mode="horizontal"
+              router
+              @open="handleopen"
+              @close="handleclose"
+              @select="handleselect"
+              :background-color="variables.menuBg"
+              :text-color="variables.menuText"
+              :active-text-color="variables.menuActiveText">
+              <template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
+                <el-submenu :key="index" :index="index+''" v-if="!item.leaf">
+                  <template slot="title">
+                    <i :class="item.iconCls"></i>
+                    <span slot="title">{{item.name}}</span>
+                  </template>
+                  <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" v-if="!child.hidden">{{child.name}}</el-menu-item>
+                </el-submenu>
+                <el-menu-item :key="index" v-if="item.leaf" :index="item.path"><i :class="item.iconCls"></i> <span slot="title">{{item.name}}</span></el-menu-item>
+              </template>
+            </el-menu>
       </el-col>
-      <el-col :span="10">
-        <div class="tools" @click.prevent="collapse">
-          <i class="fa fa-align-justify" style="color:green"></i>
-        </div>
-      </el-col>
-      <el-col :span="4" class="userinfo">
+      <el-col :span="2" class="userinfo" :background-color="variables.menuBg">
         <el-dropdown trigger="hover">
           <span class="el-dropdown-link userinfo-inner"><img :src="this.sysUserAvatar" /> {{sysUserName}}</span>
           <el-dropdown-menu slot="dropdown">
@@ -21,33 +39,6 @@
       </el-col>
     </el-col>
     <el-col :span="24" class="main">
-      <aside :class="collapsed?'menu-collapsed':'menu-expanded'">
-        <!--导航菜单-->
-        <el-menu
-          :background-color="variables.menuBg"
-          :text-color="variables.menuText"
-          :active-text-color="variables.menuActiveText"
-          :default-active="$route.path"
-          class="el-menu-vertical-demo"
-          @open="handleopen"
-          @close="handleclose"
-          @select="handleselect"
-          unique-opened
-          router
-          :collapse="collapsed">
-          <template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
-            <el-submenu :key="index" :index="index+''" v-if="!item.leaf">
-              <template slot="title">
-                <i :class="item.iconCls"></i>
-                <span slot="title">{{item.name}}</span>
-              </template>
-              <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" v-if="!child.hidden">{{child.name}}</el-menu-item>
-            </el-submenu>
-            <!-- <el-menu-item :key="index" v-if="item.leaf&&item.children.length>0" :index="item.children[0].path"><i :class="item.iconCls"></i>{{item.children[0].name}}</el-menu-item> -->
-            <el-menu-item :key="index" v-if="item.leaf" :index="item.path"><i :class="item.iconCls"></i> <span slot="title">{{item.name}}</span></el-menu-item>
-          </template>
-        </el-menu>
-      </aside>
       <section class="content-container">
         <div class="grid-content bg-purple-light">
           <el-col :span="24" class="breadcrumb-container">
@@ -142,6 +133,9 @@ export default {
 <style scoped lang="scss">
 @import '~scss_vars';
 @import '../styles/variables.scss';
+.el-menu.el-menu--horizontal {
+    border: none;
+}
 .container {
   position: absolute;
   top: 0px;
@@ -150,7 +144,7 @@ export default {
   .header {
     height: 60px;
     line-height: 60px;
-    background: $color-primary;
+    background: $menuBg;
     color: #fff;
     .userinfo {
       text-align: right;
@@ -176,8 +170,8 @@ export default {
       padding-right: 20px;
       border-color: rgba(238, 241, 146, 0.3);
       background-color: $menuBg;
-      border-right-width: 1px;
-      border-right-style: solid;
+      // border-right-width: 1px;
+      // border-right-style: solid;
       img {
         width: 40px;
         float: left;
@@ -188,7 +182,7 @@ export default {
       }
     }
     .logo-width {
-      width: 230px;
+      //width: 230px;
       flex: 0 0 230px;
       transition: all 0.5s ease;
     }
@@ -259,4 +253,5 @@ export default {
     }
   }
 }
+
 </style>
